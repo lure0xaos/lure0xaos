@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{app/layout}" th:with="title=#{index-title}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{index-title}">index</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <ul class="nav nav-tabs" id="index-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#news" id="news-tab">
+                <i class="fas fa-newspaper"></i>
+                <th:block th:text="#{index-tab-news}">news</th:block>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#quote" id="quote-tab">
+                <i class="fas fa-quote-right"></i>
+                <th:block th:text="#{index-tab-quote}">quote</th:block>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="index-tab-content">
+        <div aria-labelledby="news-tab" class="tab-pane fade show active" id="news" role="tabpanel">
+            <div class="accordion" id="news-accordion">
+                <!--/*@thymesVar id="news" type="java.util.List<gargoyle.l0x.dto.app.NewsDto>"*/-->
+                <th:block th:each="newsline,state:${news}">
+                    <div class="card" th:with="expanded=${state.first}">
+                        <div class="card-header" th:id="${'news-heading-'+state.index}">
+                            <h2 class="mb-0">
+                                <button data-toggle="collapse" th:class="${'btn btn-link'+(expanded?'':' collapsed')}"
+                                        th:data-target="${'#news-content-'+state.index}" type="button">
+                                    <th:block th:text="${newsline.head}">head</th:block>
+                                </button>
+                                <small class="text-muted">
+                                    <!--/*@thymesVar id="systemDateTimeFormat" type="string"*/-->
+                                    <th:block th:text="${#temporals.format(newsline.date,systemDateTimeFormat)}">date
+                                    </th:block>
+                                </small>
+                            </h2>
+                        </div>
+                        <div data-parent="#news-accordion" th:class="${'collapse'+(expanded?' show':'')}"
+                             th:id="${'news-content-'+state.index}">
+                            <div class="card-body">
+                                <th:block th:text="${newsline.body}">body</th:block>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+        <div aria-labelledby="quote-tab" class="tab-pane fade" id="quote" role="tabpanel">
+            <!--/*@thymesVar id="quote" type="gargoyle.l0x.dto.app.QuoteDto"*/-->
+            <div class="card">
+                <div class="card-header">
+                    <th:block th:text="${quote.head}">head</th:block>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <th:block th:text="${quote.primaryBody}">body</th:block>
+                        </li>
+                        <li class="list-group-item">
+                            <th:block th:text="${quote.secondaryBody}">body</th:block>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <th:block th:text="${quote.author}">author</th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

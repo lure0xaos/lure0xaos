@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{app/layout}" th:with="title=${creation.head}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<!--/*@thymesVar id="creation" type="gargoyle.l0x.dto.app.CreationDto"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <!--/*@thymesVar id="creation" type="gargoyle.l0x.dto.app.CreationDto"*/-->
+    <title th:text="${creation.head}">head</title>
+    <link rel="stylesheet" th:href="@{/css/creation.css}"/>
+    <meta name="_csrf_parameter" th:content="${_csrf.parameterName}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="float-right">
+        <!--/*@thymesVar id="rate" type="int"*/-->
+        <!--/*@thymesVar id="auth" type="java.lang.Boolean"*/-->
+        <th:block th:each="vote:${#numbers.sequence(1,5)}"
+                  th:with="link=@{/{alias}/vote/(alias=${creation.alias},vote=${vote})},state=${vote eq rate?'primary':'secondary'}">
+            <a th:class="${'badge badge-pill badge-'+state}"
+               th:href="${auth?link:'#'}"
+               th:style="${#messages.msg('vote-style-'+vote+'-'+state)}"
+               th:title="${#messages.msg('vote-'+vote)}">
+                <i th:class="${#messages.msg('vote-class-'+vote+'-'+state)}"></i>
+            </a>
+        </th:block>
+    </div>
+    <ul class="nav nav-tabs" id="creation-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#creation" id="creation-tab">
+                <i class="fas fa-book"></i>
+                <th:block th:text="#{creation-tab-creation}">creation</th:block>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#comments" id="comments-tab">
+                <i class="fas fa-comment"></i>
+                <th:block th:text="#{creation-tab-comments}">comments</th:block>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="creation-tabs-content">
+        <div aria-labelledby="creation-tab" class="tab-pane fade show active" id="creation" role="tabpanel">
+            <!--/*@thymesVar id="creation" type="gargoyle.l0x.dto.app.CreationDto"*/-->
+            <div th:class="${'creation creation-'+creation.genre}">
+                <div class="creation-header text-right">
+                    <cite>
+                        <th:block th:text="${#messages.msg('genre-'+creation.genre)}">genre</th:block>
+                    </cite>
+                </div>
+                <div class="creation-content" th:utext="${creation.body}">content</div>
+                <div class="creation-footer text-right">
+                    <cite>
+                        <th:block th:text="${'@'+creation.author.username}">author</th:block>
+                        <!--/*@thymesVar id="systemDateTimeFormat" type="string"*/-->
+                        <th:block th:text="${#temporals.format(creation.date,systemDateTimeFormat)}">date</th:block>
+                    </cite>
+                </div>
+            </div>
+        </div>
+        <div aria-labelledby="comments-tab" class="tab-pane fade" id="comments" role="tabpanel">
+            <!-- Button trigger modal -->
+            <button class="btn btn-primary" data-comment-author="" data-target="#commentDialog" data-toggle="modal"
+                    th:if="${auth}"
+                    type="button">
+                <th:block th:text="#{creation-tab-comments-new}">comment</th:block>
+            </button>
+
+            <!-- Modal -->
+            <div aria-hidden="true" class="modal fade" id="commentDialog" role="dialog"
+                 tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered " role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title">
+                                <input class="form-control" name="comment-head" type="text"/>
+                            </div>
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <textarea class="form-control" cols="80" name="comment-source" rows="5"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                            <button class="btn btn-primary modal-submit" type="button">
+                                <th:block th:text="#{creation-tab-comments-new}"></th:block>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="ext">
+    <script th:inline="javascript" type="text/javascript">
+        jQuery('#commentDialog')
+            .on('show.bs.modal', function (event) {
+                if (typeof event.relatedTarget === "undefined") return;
+                var button = jQuery(event.relatedTarget);
+                var recipient = button.data('comment-author');
+                var modal = jQuery(this);
+
+                modal.find('.modal-title input[name="comment-head"]').val('New message to ' + recipient);
+                modal.find('.modal-body textarea[name="comment-source"]').val(recipient)
+            });
+        jQuery('#commentDialog .modal-submit')
+            .on('click', function (event) {
+                var modal = jQuery(this).parent().parent().parent().parent();
+
+                var csrfHeader = jQuery("meta[name='_csrf_header']").attr("content");
+                var csrfToken = jQuery("meta[name='_csrf']").attr("content");
+                var csrfParam = jQuery("meta[name='_csrf_parameter']").attr("content");
+
+                var data = {
+                    head: modal.find('.modal-title input[name="comment-head"]').val(),
+                    source: modal.find('.modal-body textarea[name="comment-source"]').val()
+                };
+                data[csrfParam] = csrfToken;
+
+                jQuery.ajax({
+                    type: "POST",
+                    beforeSend: function (request) {
+                        request.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    url:/*[[@{/{alias}/comment/(alias=${creation.alias})}]]*/"",
+                    data: data,
+                    success: function (data) {
+                        modal.modal('hide');
+                        ;
+                    }
+                });
+            });
+    </script>
+</th:block>
+</body>
+</html>

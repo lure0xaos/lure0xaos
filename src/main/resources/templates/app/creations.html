@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{app/layout}" th:with="title=#{search}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<!--/*@thymesVar id="creation" type="gargoyle.l0x.dto.app.CreationDto"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <!--/*@thymesVar id="creation" type="gargoyle.l0x.dto.app.CreationDto"*/-->
+    <title th:text="#{search}">head</title>
+    <link rel="stylesheet" th:href="@{/css/creation.css}"/>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <ul class="list-group">
+        <!--/*@thymesVar id="items" type="java.util.List<gargoyle.l0x.dto.app.CreationDto>"*/-->
+        <th:block th:each="item:${items}">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-5">
+                        <th:block th:text="${item.head}">head</th:block>
+                    </div>
+                    <div class="col-2">
+                        <!--/*@thymesVar id="systemDateTimeFormat" type="string"*/-->
+                        <th:block th:text="${#temporals.format(item.date,systemDateTimeFormat)}">item
+                        </th:block>
+                    </div>
+                    <div class="col-2">
+                        <th:block th:text="${item.author.username}">author</th:block>
+                    </div>
+                    <div class="col-1">
+                        <th:block th:text="${#messages.msg('genre-'+item.genre)}">genre</th:block>
+                    </div>
+                    <div class="col-1 text-right">
+                        <div class="btn-group">
+                            <a class="btn btn-primary"
+                               th:href="@{/{alias}(alias=${item.alias})}">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </th:block>
+    </ul>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{admin/layout}"
+      th:with="service=${@newsAdminService},cat='news',title=${item.head}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<!--/*@thymesVar id="service" type="gargoyle.l0x.services.app.admin.base.BaseAdminService"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${item.head}">index</title>
+    <link rel="stylesheet" th:href="@{/webjars/editor.md/css/editormd.css}"/>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <form class="form" method="post" th:action="@{/admin/{cat}/edit/{uid}(cat=${cat},uid=${item.uid})}"
+          th:object="${item}">
+        <div class="form-group">
+            <label for="item-head" th:text="head"></label>
+            <input class="form-control" id="item-head" th:field="*{head}" type="text"/>
+        </div>
+        <div class="form-group">
+            <label for="item-source" th:text="source"></label>
+            <div id="item-source-div">
+                <textarea class="form-control" cols="80" id="item-source" rows="20" th:field="*{source}"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="item-date" th:text="date"></label>
+            <input class="form-control" id="item-date" th:field="*{date}" type="datetime-local"/>
+        </div>
+        <div class="form-group">
+            <div class="btn-group">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-save"></i>
+                    <th:block th:text="save">save</th:block>
+                </button>
+                <a class="btn btn-danger" th:href="@{/admin/{cat}/(cat=${cat})}">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+    </form>
+</th:block>
+<th:block layout:fragment="ext">
+    <script th:src="@{/webjars/editor.md/editormd.js}"></script>
+    <script th:src="@{/webjars/editor.md/languages/en.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        $(function () {
+            var editor = editormd("item-source-div", Object.assign({}, md_options, {
+                markdown: /*[[${item.source}]]*/ "",
+            }));
+        });
+    </script>
+</th:block>
+<th:block layout:fragment="font-awesome-css"></th:block>
+<th:block layout:fragment="font-awesome-js"></th:block>
+</body>
+</html>

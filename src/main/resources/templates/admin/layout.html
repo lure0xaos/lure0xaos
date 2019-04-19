@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" th:lang="${lang}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="layout">index</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+    <th:block layout:fragment="font-awesome-css">
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+    </th:block>
+</head>
+<body class="d-flex flex-column h-100">
+<th:block layout:fragment="header">
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+        <!--/*@thymesVar id="projectName" type="string"*/-->
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" th:href="@{/admin/}" th:text="${projectName}">brand</a>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item dropdown" th:if="${@auth.fullyLogged}">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+                   data-toggle="dropdown" href="#" id="navbarAuthenticationMenuLink" role="button">
+                    <img alt="" src="#"
+                         th:src="@{{base}(base=${@gravatar.getAvatarLocation(@users.getIf(#authentication.name).email)},s=20,d='blank')}"/>
+                    <th:block th:text="${'@'+#authentication.name}">user name</th:block>
+                </a>
+                <div aria-labelledby="navbarAuthenticationMenuLink" class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/users/}">
+                        <i class="fas fa-address-card"></i>
+                        <th:block th:text="#{layout-authentication-profile}">Profile</th:block>
+                    </a>
+                    <a class="dropdown-item" th:href="@{/logout}">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <th:block th:text="#{layout-authentication-logout}">Logout</th:block>
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item" th:unless="${@auth.fullyLogged}">
+                <a class="nav-link" th:href="@{/login}">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <th:block th:text="#{login-submit}">login</th:block>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</th:block>
+<main class="flex-shrink-0" role="main">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <th:block layout:fragment="sidebar">
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span th:text="#{admin-sidebar-title}"></span>
+                        </h6>
+                        <ul class="nav flex-column mb-2">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/sessions/}">
+                                    <th:block th:text="#{admin-sessions-title}">sessions</th:block>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/creations/}">
+                                    <th:block th:text="#{admin-creations-title}">creations</th:block>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/news/}">
+                                    <th:block th:text="#{admin-news-title}">news</th:block>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/quotes/}">
+                                    <th:block th:text="#{admin-quotes-title}">quotes</th:block>
+                                </a>
+                            </li>
+                        </ul>
+                    </th:block>
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span th:text="#{admin-sidemenu-title}"></span>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <th:block layout:fragment="sidemenu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/}">
+                                </a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </nav>
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-4" role="main">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <!--/*@thymesVar id="title" type="string"*/-->
+                    <h1 class="h2" th:text="${title}">title</h1>
+                </div>
+                <th:block layout:fragment="content"></th:block>
+            </main>
+        </div>
+    </div>
+</main>
+<script th:src="@{/webjars/jquery/jquery.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.js}"></script>
+<th:block layout:fragment="font-awesome-js">
+    <script th:src="@{/webjars/font-awesome/js/all.js}"></script>
+</th:block>
+<script th:inline="javascript" type="text/javascript">
+    md_options = {
+        mode: "markdown",
+        name: "item-source",
+        // width: "100%",
+        height: "100%",
+        path: /*[[@{/webjars/editor.md/lib/}]]*/ "editor.md/lib/",
+        placeholder: /*[[#{admin-editor-placeholder}]]*/ "Please use markdown",
+        autoHeight: true,
+        lineNumbers: false,
+        matchWordHighlight: "onselected",
+        toc: false
+    };
+</script>
+<th:block layout:fragment="ext"></th:block>
+</body>
+</html>

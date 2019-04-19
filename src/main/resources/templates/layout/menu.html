@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title>index</title>
+</head>
+<body class="d-flex flex-column h-100">
+<th:block layout:fragment="rootmenu">
+    <!--/*@thymesVar id="creation" type="gargoyle.l0x.dto.app.CreationDto"*/-->
+    <th:block layout:insert="~{layout/menu::menu}" th:with="items=${@menuBuilder.buildMenu(creation?.alias)}">
+        menu
+    </th:block>
+</th:block>
+<th:block layout:fragment="menu">
+    <!--/*@thymesVar id="parent" type="gargoyle.l0x.data.MenuItem"*/-->
+    <!--/*@thymesVar id="item" type="gargoyle.l0x.data.MenuItem"*/-->
+    <!--/*@thymesVar id="items" type="java.util.Collection<gargoyle.l0x.data.MenuItem>"*/-->
+    <div th:class="${'list-group collapse'+(parent ne null and not parent.visible?'':' show')}"
+         th:id="${'items_'+(parent?.id)}">
+        <th:block th:each="item:${items}">
+            <div class="list-group-item" th:id="${item.id}">
+                <span th:if="${item.leaf}">
+                    <a th:href="@{/{alias}(alias=${item.alias})}" th:title="${item.title}">
+                        <i class="fas fa-book"></i>
+                        <th:block th:text="${item.label}">item</th:block>
+                    </a>
+                </span>
+                <span th:unless="${item.leaf}">
+                        <a data-toggle="collapse" th:href="${'#items_'+(item?.id)}" th:title="${item.title}">
+                            <i class="fas fa-plus"></i>
+                            <th:block th:text="${item.label}">item</th:block>
+                        </a>
+                    </span>
+                <th:block layout:insert="~{layout/menu::menu}" th:with="items=${item.children},parent=${item}">
+                    recursive
+                </th:block>
+            </div>
+        </th:block>
+    </div>
+</th:block>
+</body>
+</html>

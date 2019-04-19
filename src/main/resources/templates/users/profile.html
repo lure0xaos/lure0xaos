@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{app/layout}" th:with="title=#{profile-title(${user.username})}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{profile-title(${user.username})}">profile</title>
+</head>
+<body th:with="profile=${@gravatar.getJsonProfile(user.email)}">
+<th:block layout:fragment="content">
+    <div class="h-auto"
+         th:style="${'min-height:800px; overflow:visible; background-image: url('+profile['profileBackground']['url']+'); background-color:'+profile['profileBackground']['color']}">
+        <th:block th:text="${profile['id']}">user</th:block>
+    </div>
+    <!--    <th:block th:utext="${@gravatar.getHtmlProfile(user.username)}">page</th:block>-->
+</th:block>
+</body>
+</html>

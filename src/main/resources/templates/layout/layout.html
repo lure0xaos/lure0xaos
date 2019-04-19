@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title>index</title>
+</head>
+<body class="d-flex flex-column h-100">
+<th:block th:fragment="header">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <!--/*@thymesVar id="projectName" type="string"*/-->
+        <a class="navbar-brand" th:href="@{/}" th:text="${projectName}">brand</a>
+        <button aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-target="#navbarCollapse" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item navbar-text mr-2">
+                    <!--/*@thymesVar id="online" type="long"*/-->
+                    <th:block th:text="#{layout-online(${online})}">online</th:block>
+                </li>
+                <li class="nav-item">
+                    <form class="form-inline mt-2 mt-md-0" th:action="@{/find/}">
+                        <input class="form-control mr-sm-2" name="query" th:placeholder="#{search}" type="text"/>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown" th:if="${@auth.fullyLogged}">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+                       data-toggle="dropdown" href="#" id="navbarAuthenticationMenuLink" role="button">
+                        <img alt="" src="#"
+                             th:src="@{{base}(base=${@gravatar.getAvatarLocation(@users.getIf(#authentication.name).email)},s=20,d='blank')}"/>
+                        <th:block th:text="${'@'+#authentication.name}">user name</th:block>
+                    </a>
+                    <div aria-labelledby="navbarAuthenticationMenuLink" class="dropdown-menu">
+                        <a class="dropdown-item" th:href="@{/users/}">
+                            <i class="fas fa-address-card"></i>
+                            <th:block th:text="#{layout-authentication-profile}">
+                                Profile
+                            </th:block>
+                        </a>
+                        <a class="dropdown-item" th:href="@{/logout}">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <th:block th:text="#{layout-authentication-logout}">
+                                Logout
+                            </th:block>
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item" th:unless="${@auth.fullyLogged}">
+                    <a class="nav-link" th:href="@{/login}">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <th:block th:text="#{login-submit}">login</th:block>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</th:block>
+<th:block th:fragment="footer">
+    <span class="text-muted text-left">
+        <!--/*@thymesVar id="projectName" type="string"*/-->
+        <th:block th:text="${projectName}">projectName</th:block>
+        <!--/*@thymesVar id="projectVersion" type="string"*/-->
+        v<th:block th:text="${projectVersion}">projectVersion</th:block>
+        -
+        <!--/*@thymesVar id="projectBuild" type="string"*/-->
+        <th:block th:text="${projectBuild}">projectBuild</th:block>
+    </span>
+    <!--/*@thymesVar id="projectOrganizationUrl" type="string"*/-->
+    <!--/*@thymesVar id="projectOrganizationName" type="string"*/-->
+    <!--/*@thymesVar id="projectInceptionYear" type="string"*/-->
+    <span class="text-muted text-right">
+        &copy;
+        <th:block th:text="${projectInceptionYear}">projectInceptionYear</th:block>
+        <a th:href="${projectOrganizationUrl}">
+            <th:block th:text="${projectOrganizationName}">projectOrganizationName</th:block>
+        </a>
+    </span>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{app/layout}" th:with="title=#{index-title}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{index-title}">index</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    to <a target="_blank" th:href="${url}" th:text="${url}"></a>
+</th:block>
+</body>
+</html>

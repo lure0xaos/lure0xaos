@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en" th:lang="${lang}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="layout">index</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+</head>
+<body class="d-flex flex-column h-100 text-center">
+<th:block layout:fragment="header">
+    <th:block th:replace="layout/layout::header"></th:block>
+</th:block>
+<main class="flex-shrink-0" role="main">
+    <div class="container">
+        <!--/*@thymesVar id="title" type="string"*/-->
+        <h1 th:text="${title}">title</h1>
+        <th:block layout:fragment="content"></th:block>
+    </div>
+</main>
+<script th:src="@{/webjars/jquery/jquery.slim.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.js}"></script>
+<script th:src="@{/webjars/font-awesome/js/all.js}"></script>
+<th:block layout:fragment="ext"></th:block>
+</body>
+</html>
