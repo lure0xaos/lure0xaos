@@ -81,6 +81,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .rememberMe()
-                .alwaysRemember(true);
+                .alwaysRemember(true)
+                .and()
+                .oauth2Login()
+                .loginPage(PATH_LOGIN);
     }
+
 }

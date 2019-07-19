@@ -30,6 +30,11 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">
             <th:block th:text="#{login-submit}">Sign in</th:block>
         </button>
+        <div>
+            <th:block th:each="oauthLink:${oauthLinks.entrySet()}">
+                <a th:href="@{/{url}(url=${oauthLink.value})}" th:text="${oauthLink.key}"></a>
+            </th:block>
+        </div>
         <!--/*@thymesVar id="projectOrganizationUrl" type="string"*/-->
         <!--/*@thymesVar id="projectOrganizationName" type="string"*/-->
         <!--/*@thymesVar id="projectInceptionYear" type="string"*/-->
