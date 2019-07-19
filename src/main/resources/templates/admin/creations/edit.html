@@ -50,8 +50,10 @@
     <script th:inline="javascript" type="text/javascript">
         $(function () {
             var editor = editormd("item-source-div", Object.assign({}, md_options, {
-                markdown: /*[[${item.source}]]*/ "",
+                markdown: /*[[${item.source}]]*/ ""
             }));
+            editor.toString();
+
         });
     </script>
 </th:block>

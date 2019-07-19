@@ -52,9 +52,11 @@
             var primary_editor = editormd("item-primary-source-div", Object.assign({}, md_options, {
                 markdown: /*[[${item.primarySource}]]*/ ""
             }));
+            primary_editor.toString();
             var secondary_editor = editormd("item-secondary-source-div", Object.assign({}, md_options, {
                 markdown: /*[[${item.secondarySource}]]*/ ""
             }));
+            secondary_editor.toString();
         });
     </script>
 </th:block>
