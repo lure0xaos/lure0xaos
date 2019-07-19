@@ -1,5 +1,6 @@
 package gargoyle.l0x.controllers.app;
 
+import gargoyle.l0x.annotations.WhitelistLocal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +11,8 @@ import static gargoyle.l0x.config.WebMvcConfig.PATH_ROOT;
 @Controller
 @RequestMapping(PATH_ROOT)
 @RequiredArgsConstructor
+@WhitelistLocal
 public class ErrController {
-    //@Whitelist
     @SuppressWarnings("ProhibitedExceptionThrown")
     @RequestMapping("/err")
     public ModelAndView getError() {
