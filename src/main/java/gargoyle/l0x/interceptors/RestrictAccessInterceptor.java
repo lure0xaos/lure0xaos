@@ -13,13 +13,14 @@ import java.util.Optional;
 public class RestrictAccessInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        return Optional.of(handler).map((handlerMethod) -> (HandlerMethod) handlerMethod).map((method) ->
-                Optional.ofNullable(method.getMethodAnnotation(Whitelist.class))
-                        .or(() -> Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(method.getBeanType(), Whitelist.class)))
-                        .map(Whitelist::value)
-                        .map((Arrays::asList))
-                        .map((list) -> list.contains(request.getRemoteAddr()))
-                        .orElse(true))
+        return Optional.of(handler)
+                .filter((handlerMethod) -> handlerMethod instanceof HandlerMethod).map((handlerMethod) -> (HandlerMethod) handlerMethod).map((method) ->
+                        Optional.ofNullable(method.getMethodAnnotation(Whitelist.class))
+                                .or(() -> Optional.ofNullable(AnnotatedElementUtils.findMergedAnnotation(method.getBeanType(), Whitelist.class)))
+                                .map(Whitelist::value)
+                                .map((Arrays::asList))
+                                .map((list) -> list.contains(request.getRemoteAddr()))
+                                .orElse(true))
                 .orElse(true);
     }
 }
