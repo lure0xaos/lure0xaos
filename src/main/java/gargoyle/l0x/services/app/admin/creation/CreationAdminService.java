@@ -6,6 +6,7 @@ import gargoyle.l0x.repositories.app.CreationRepository;
 import gargoyle.l0x.services.app.admin.base.BaseAdminService;
 import gargoyle.l0x.services.app.convert.CreationConverter;
 import gargoyle.l0x.services.auth.Auth;
+import gargoyle.l0x.services.away.Away;
 import gargoyle.l0x.services.md.MD;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,14 @@ import static gargoyle.l0x.services.app.admin.base.BaseAdminServiceUtil.*;
 @Service
 public class CreationAdminService extends BaseAdminService<String, CreationDto, Creation, CreationRepository> {
     private final Auth auth;
+    private final Away away;
     private final MD md;
 
-    public CreationAdminService(CreationRepository repository, Auth auth, MD md,
+    public CreationAdminService(CreationRepository repository, Auth auth, Away away, MD md,
                                 CreationConverter converter, CreationEntityService entityService) {
         super(CreationDto.class, converter, entityService);
         this.auth = auth;
+        this.away = away;
         this.md = md;
     }
 
@@ -32,7 +35,7 @@ public class CreationAdminService extends BaseAdminService<String, CreationDto, 
 
     @Override
     public void updateEntity(Creation destination, CreationDto source) {
-        updateSourceEntity(destination, source, md::toHtml);
+        updateSourceEntity(destination, source, text -> away.rewriteText(md.toHtml(text)));
         updateOwnerEntity(destination, source, () -> auth.getRealUser().orElseThrow());
         updateDatedEntity(destination, source);
         updateAliasedEntity(destination, source);

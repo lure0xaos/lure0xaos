@@ -105,20 +105,121 @@
 <th:block layout:fragment="font-awesome-js">
     <script th:src="@{/webjars/font-awesome/js/all.js}"></script>
 </th:block>
-<script th:inline="javascript" type="text/javascript">
-    md_options = {
-        mode: "markdown",
-        name: "item-source",
-        // width: "100%",
-        height: "100%",
-        path: /*[[@{/webjars/editor.md/lib/}]]*/ "editor.md/lib/",
-        placeholder: /*[[#{admin-editor-placeholder}]]*/ "Please use markdown",
-        autoHeight: true,
-        lineNumbers: false,
-        matchWordHighlight: "onselected",
-        toc: false
-    };
-</script>
+<th:block layout:fragment="md_options">
+    <script th:inline="javascript" type="text/javascript">
+        md_options = {
+            mode: "markdown",
+            name: "item-source",
+            // width: "100%",
+            height: "100%",
+            path: /*[[@{/webjars/editor.md/lib/}]]*/ "editor.md/lib/",
+            placeholder: /*[[#{admin-editor-placeholder}]]*/ "Please use markdown",
+            autoHeight: true,
+            lineNumbers: false,
+            matchWordHighlight: "onselected",
+            toc: false,
+            "lang": {
+                "name": "ru",
+                "description": "Открытый редактор Markdown",
+                "tocTitle": "Каталог",
+                "toolbar": {
+                    "undo": "Отменить (Ctrl + Z)",
+                    "redo": "Повторить (Ctrl + Y)",
+                    "bold": "Жирный",
+                    "del": "Удалить строку",
+                    "italic": "Курсив",
+                    "quote": "Цитата",
+                    "ucwords": "Преобразовать инициалы каждого слова в верхний регистр",
+                    "uppercase": "Преобразовать выделение в прописные",
+                    "lowercase": "Преобразовать выделение в строчные",
+                    "h1": "Заголовок 1",
+                    "h2": "Заголовок 2",
+                    "h3": "Заголовок 3",
+                    "h4": "Заголовок 4",
+                    "h5": "Заголовок 5",
+                    "h6": "Заголовок 6",
+                    "list-ul": "Неупорядоченный список",
+                    "list-ol": "Упорядоченный список",
+                    "hr": "Горизонтальная линия",
+                    "link": "Ссылка",
+                    "reference-link": "ссылка-ссылка",
+                    "image": "Добавить изображение",
+                    "code": "Встроенный код",
+                    "preformatted-text": "Предварительно отформатированный текст / кодовый блок (стиль с отступом)",
+                    "code-block": "Код-блок (многоязычный стиль)",
+                    "table": "Добавить таблицу",
+                    "datetime": "Дата-время",
+                    "emoji": "Emoji выражение",
+                    "html-entities": "Символы сущностей HTML",
+                    "pagebreak": "Вставить разрыв страницы",
+                    "goto-line": "Перейти к строке",
+                    "watch": "Закрыть предварительный просмотр",
+                    "unwatch": "Открыть предварительный просмотр",
+                    "preview": "Полный просмотр окна HTML (нажмите Shift + ESC восстановление)",
+                    "fullscreen": "Полный экран (восстановление по ESC)",
+                    "clear": "Пусто",
+                    "search": "Поиск",
+                    "help": "Использовать помощь",
+                    "info": "О программе"
+                },
+                "buttons": {
+                    "enter": "ОК",
+                    "cancel": "Отмена",
+                    "close": "Закрыть"
+                },
+                "dialog": {
+                    "link": {
+                        "title": "Добавить ссылку",
+                        "url": "Адрес ссылки",
+                        "urlTitle": "Заголовок ссылки",
+                        "urlEmpty": "Ошибка: пожалуйста, заполните адрес ссылки."
+                    },
+                    "referenceLink": {
+                        "title": "Добавить ссылку",
+                        "name": "Ссылочное имя",
+                        "url": "Адрес ссылки",
+                        "urlId": "Идентификатор ссылки",
+                        "urlTitle": "Заголовок ссылки",
+                        "nameEmpty": "Ошибка: имя ссылки не может быть пустым.",
+                        "idEmpty": "Ошибка: пожалуйста, введите идентификатор ссылки.",
+                        "urlEmpty": "Ошибка: пожалуйста, введите URL ссылки."
+                    },
+                    "image": {
+                        "title": "Добавить изображение",
+                        "url": "Адрес изображения",
+                        "link": "Ссылка на изображение",
+                        "alt": "Описание изображения",
+                        "uploadButton": "Локальная загрузка",
+                        "imageURLEmpty": "Ошибка: адрес изображения не может быть пустым.",
+                        "uploadFileEmpty": "Ошибка: загруженное изображение не может быть пустым.",
+                        "formatNotAllowed": "Ошибка: разрешена только загрузка файлов изображений. Формат файла изображений, который можно загружать:"
+                    },
+                    "preformattedText": {
+                        "title": "Добавить предварительно отформатированный текст или кодовые блоки",
+                        "emptyAlert": "Ошибка: пожалуйста, заполните содержимое предварительно отформатированного текста или кода."
+                    },
+                    "codeBlock": {
+                        "title": "Добавить блок кода",
+                        "selectLabel": "Код языка:",
+                        "selectDefaultText": "Пожалуйста, выберите язык кода",
+                        "otherLanguage": "Другие языки",
+                        "unselectedLanguageAlert": "Ошибка: Пожалуйста, выберите тип языка, к которому относится код.",
+                        "codeEmptyAlert": "Ошибка: пожалуйста, заполните содержимое кода."
+                    },
+                    "htmlEntities": {
+                        "title": "Символы HTML-сущности"
+                    },
+                    "help": {
+                        "title": "Используйте помощь"
+                    }
+                }
+            }
+        };
+        $(function () {
+            editormd.urls.atLinkBase = /*[[@{/to/}]]*/"";
+        })
+    </script>
+</th:block>
 <th:block layout:fragment="ext"></th:block>
 </body>
 </html>

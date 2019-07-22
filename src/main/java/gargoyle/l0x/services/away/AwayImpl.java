@@ -1,6 +1,8 @@
 package gargoyle.l0x.services.away;
 
+import gargoyle.l0x.controllers.away.AwayController;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -12,6 +14,9 @@ public class AwayImpl implements Away {
 
     @Override
     public String rewrite(String url) {
-        return "/to/?url=" + URLEncoder.encode(url, StandardCharsets.UTF_8);
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .pathSegment(AwayConstants.LINK_PATH)
+                .queryParam(AwayController.MODEL_URL, URLEncoder.encode(url, StandardCharsets.UTF_8))
+                .build().toUriString();
     }
 }

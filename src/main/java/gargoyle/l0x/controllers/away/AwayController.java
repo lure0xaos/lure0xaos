@@ -1,5 +1,6 @@
 package gargoyle.l0x.controllers.away;
 
+import gargoyle.l0x.services.away.AwayConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,8 +13,8 @@ public class AwayController {
     public static final String VIEW_AWAY = "away/away";
     public static final String MODEL_URL = "url";
 
-    @RequestMapping("/to/")
-    public ModelAndView getAway(@RequestParam("url") URL url) {
+    @RequestMapping(AwayConstants.LINK_PATH)
+    public ModelAndView getAway(@RequestParam(AwayConstants.PARAM_URL) URL url) {
         return new ModelAndView(VIEW_AWAY,
                 MODEL_URL, url
         );

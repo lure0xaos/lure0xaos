@@ -47,13 +47,16 @@
 <th:block layout:fragment="ext">
     <script th:src="@{/webjars/editor.md/editormd.js}"></script>
     <script th:src="@{/webjars/editor.md/languages/en.js}"></script>
+    <th:block layout:fragment="md_options"></th:block>
     <script th:inline="javascript" type="text/javascript">
         $(function () {
             var primary_editor = editormd("item-primary-source-div", Object.assign({}, md_options, {
+                name: "item-primary-source",
                 markdown: /*[[${item.primarySource}]]*/ ""
             }));
             primary_editor.toString();
             var secondary_editor = editormd("item-secondary-source-div", Object.assign({}, md_options, {
+                name: "item-secondary-source",
                 markdown: /*[[${item.secondarySource}]]*/ ""
             }));
             secondary_editor.toString();

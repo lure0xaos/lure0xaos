@@ -44,7 +44,7 @@
                         <div data-parent="#news-accordion" th:class="${'collapse'+(expanded?' show':'')}"
                              th:id="${'news-content-'+state.index}">
                             <div class="card-body">
-                                <th:block th:text="${newsline.body}">body</th:block>
+                                <th:block th:utext="${newsline.body}">body</th:block>
                             </div>
                         </div>
                     </div>

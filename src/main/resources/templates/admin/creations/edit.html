@@ -47,6 +47,7 @@
 <th:block layout:fragment="ext">
     <script th:src="@{/webjars/editor.md/editormd.js}"></script>
     <script th:src="@{/webjars/editor.md/languages/en.js}"></script>
+    <th:block layout:fragment="md_options"></th:block>
     <script th:inline="javascript" type="text/javascript">
         $(function () {
             var editor = editormd("item-source-div", Object.assign({}, md_options, {
