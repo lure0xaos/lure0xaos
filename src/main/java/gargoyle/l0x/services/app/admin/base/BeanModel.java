@@ -51,11 +51,11 @@ public final class BeanModel<T> {
         return (R) value.orElse(null);
     }
 
-    public <R> Set<String> propertyNames(T bean) {
+    public Set<String> propertyNames(T bean) {
         return Arrays.stream(model.getPropertyDescriptors()).map(FeatureDescriptor::getName).collect(Collectors.toSet());
     }
 
-    public <R> Map<String, PropertyDescriptor> propertyMap(T bean) {
+    public Map<String, PropertyDescriptor> propertyMap(T bean) {
         return Arrays.stream(model.getPropertyDescriptors()).collect(Collectors.toMap(FeatureDescriptor::getName, Function.identity()));
     }
 }

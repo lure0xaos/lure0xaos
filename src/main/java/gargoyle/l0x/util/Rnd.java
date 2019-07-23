@@ -54,7 +54,8 @@ public enum Rnd {
         }
         if (Number.class.isAssignableFrom(type)) {
             try {
-                return (T) type.getMethod("valueOf", String.class).invoke(null, String.valueOf(rnd(Integer.MIN_VALUE, Integer.MAX_VALUE)));
+                return (T) type.getMethod("valueOf", String.class)
+                        .invoke(null, String.valueOf(rnd(Integer.MIN_VALUE, Integer.MAX_VALUE)));
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 throw new IllegalStateException(e.getLocalizedMessage(), e);
             }

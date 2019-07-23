@@ -13,6 +13,8 @@ import java.util.TreeSet;
 @EqualsAndHashCode(of = {"parent", "id"})
 @ToString(of = {"id", "alias", "label"})
 public class MenuItem implements Comparable<MenuItem> {
+    private static final String UNDERSCORE = "_";
+
     private final Set<MenuItem> children = new TreeSet<>();
     private final String id;
     private final String label;
@@ -25,7 +27,7 @@ public class MenuItem implements Comparable<MenuItem> {
     public MenuItem(MenuItem parent, String text, String alias, boolean leaf, boolean visible) {
         this.leaf = leaf;
         this.visible = visible;
-        id = parent == null ? alias : String.join("_", parent.id, alias);
+        id = parent == null ? alias : String.join(UNDERSCORE, parent.id, alias);
         label = text;
         title = text;
         //noinspection AssignmentToNull

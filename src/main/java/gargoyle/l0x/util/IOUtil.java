@@ -37,7 +37,7 @@ public enum IOUtil {
             Long count = operations.queryForObject(sql, Long.class);
             return count != null && count > 0;
         } catch (DataAccessException e) {
-            log.error("NO DATA IN TABLE " + table, e);
+            log.error("No data in table " + table, e);
             return false;
         }
     }
@@ -50,9 +50,9 @@ public enum IOUtil {
                     , UTF_8)
                     .replace("\n", ""));
         } catch (DataAccessException e) {
-            log.error("CANNOT EXECUTE " + script, e);
+            log.error("Cannot execute script " + script, e);
         } catch (IOException e) {
-            log.error("CANNOT LOAD " + script, e);
+            log.error("Cannot load script" + script, e);
         }
     }
 }

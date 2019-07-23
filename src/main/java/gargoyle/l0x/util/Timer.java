@@ -11,7 +11,7 @@ public class Timer implements AutoCloseable {
         if (log.isDebugEnabled()) {
             this.message = message;
             start = now();
-            log.debug("start operation " + message);
+            log.debug("Start operation * " + message + " *");
         }
     }
 
@@ -24,7 +24,7 @@ public class Timer implements AutoCloseable {
         if (log.isDebugEnabled()) {
             long end = now();
             long duration = end - start;
-            log.debug("end operation " + message + " (" + duration + "ms)");
+            log.debug("End operation *" + message + " * (" + duration + "ms)");
         }
     }
 }
