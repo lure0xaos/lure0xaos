@@ -21,9 +21,9 @@
                   th:with="link=@{/{alias}/vote/(alias=${creation.alias},vote=${vote})},state=${vote eq rate?'primary':'secondary'}">
             <a th:class="${'badge badge-pill badge-'+state}"
                th:href="${auth?link:'#'}"
-               th:style="${#messages.msg('vote-style-'+vote+'-'+state)}"
-               th:title="${#messages.msg('vote-'+vote)}">
-                <i th:class="${#messages.msg('vote-class-'+vote+'-'+state)}"></i>
+               th:style="${'background-color:'+#messages.msg('vote-color-'+vote+'-'+state)+';'}"
+               th:title="${#messages.msg('vote-label-'+vote+'')}">
+                <i class="fas fa-star"></i>
             </a>
         </th:block>
     </div>
@@ -62,6 +62,7 @@
         </div>
         <div aria-labelledby="comments-tab" class="tab-pane fade" id="comments" role="tabpanel">
             <!-- Button trigger modal -->
+            <!--/*@thymesVar id="auth" type="boolean"*/-->
             <button class="btn btn-primary" data-comment-author="" data-target="#commentDialog" data-toggle="modal"
                     th:if="${auth}"
                     type="button">
