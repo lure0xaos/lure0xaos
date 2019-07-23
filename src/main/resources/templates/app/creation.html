@@ -69,6 +69,8 @@
                 <th:block th:text="#{creation-tab-comments-new}">comment</th:block>
             </button>
 
+            <div id="creation_comments_root"></div>
+
             <!-- Modal -->
             <div aria-hidden="true" class="modal fade" id="commentDialog" role="dialog"
                  tabindex="-1">
@@ -132,10 +134,35 @@
                     data: data,
                     success: function (data) {
                         modal.modal('hide');
-                        ;
+                        $('#creation-tabs a[href="#comments"]').tab('show');
                     }
                 });
             });
+        jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            // e.target // newly activated tab
+            // e.relatedTarget // previous active tab
+            if (e.target.id === 'comments-tab') {
+
+                var csrfHeader = jQuery("meta[name='_csrf_header']").attr("content");
+                var csrfToken = jQuery("meta[name='_csrf']").attr("content");
+                var csrfParam = jQuery("meta[name='_csrf_parameter']").attr("content");
+
+                var data = {};
+                data[csrfParam] = csrfToken;
+
+                jQuery.ajax({
+                    type: "GET",
+                    beforeSend: function (request) {
+                        request.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    url:/*[[@{/{alias}/comments/(alias=${creation.alias})}]]*/"",
+                    data: data,
+                    success: function (data) {
+                        jQuery("#creation_comments_root").html(data);
+                    }
+                });
+            }
+        })
     </script>
 </th:block>
 </body>

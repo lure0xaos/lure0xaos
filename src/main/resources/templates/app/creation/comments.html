@@ -1,0 +1,32 @@
+<div lang="${lang}" xmlns:th="http://www.thymeleaf.org/">
+    <ul class="list-group">
+        <!--/*@thymesVar id="comments" type="java.util.List<gargoyle.l0x.dto.app.CommentDto>"*/-->
+        <th:block th:each="item:${comments}">
+            <li class="list-group-item">
+                <div class="card">
+                    <div class="card-header">
+                        <th:block th:text="${item.head}">head</th:block>
+                        <div class="text-right">
+                            <small class="text-muted">
+                                <!--/*@thymesVar id="systemDateTimeFormat" type="string"*/-->
+                                <th:block th:text="${#temporals.format(item.date,systemDateTimeFormat)}">date</th:block>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <th:block th:utext="${item.body}">body</th:block>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="blockquote-footer text-right">
+                            <th:block th:text="${item.author.username}">author</th:block>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </th:block>
+    </ul>
+</div>
