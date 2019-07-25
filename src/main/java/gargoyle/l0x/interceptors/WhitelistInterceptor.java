@@ -1,6 +1,6 @@
 package gargoyle.l0x.interceptors;
 
-import gargoyle.l0x.annotations.Whitelist;
+import gargoyle.l0x.annotations.whitelist.Whitelist;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class RestrictAccessInterceptor extends HandlerInterceptorAdapter {
+public class WhitelistInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         return Optional.of(handler)

@@ -1,6 +1,6 @@
 package gargoyle.l0x.config;
 
-import gargoyle.l0x.interceptors.RestrictAccessInterceptor;
+import gargoyle.l0x.interceptors.WhitelistInterceptor;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +27,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new RestrictAccessInterceptor());
+        registry.addInterceptor(new WhitelistInterceptor());
     }
 }

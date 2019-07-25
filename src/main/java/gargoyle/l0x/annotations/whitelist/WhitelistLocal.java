@@ -1,4 +1,4 @@
-package gargoyle.l0x.annotations;
+package gargoyle.l0x.annotations.whitelist;
 
 import java.lang.annotation.*;
 

@@ -94,6 +94,7 @@
                     <!--/*@thymesVar id="title" type="string"*/-->
                     <h1 class="h2" th:text="${title}">title</h1>
                 </div>
+                <th:block th:replace="/alert/alerts::alerts">alerts</th:block>
                 <th:block layout:fragment="content"></th:block>
             </main>
         </div>

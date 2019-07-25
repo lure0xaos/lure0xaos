@@ -1,0 +1,18 @@
+<div lang="${lang}" xmlns:th="http://www.thymeleaf.org/">
+    <th:block th:fragment="alerts">
+        <th:block th:each="alert:${@alerts.alertsOnce}">
+            <div th:class="${'alert fade show'+(' alert-'+alert.type.cssClass)+(alert.dismiss?' alert-dismissible':'')}">
+                <h2>
+                    <th:block th:text="${alert.message}">message</th:block>
+                </h2>
+                <div class="">
+                    <th:block th:if="${alert.raw}" th:utext="${alert.description}">description</th:block>
+                    <th:block th:text="${alert.description}" th:unless="${alert.raw}">description</th:block>
+                </div>
+                <button aria-label="Close" class="close" data-dismiss="alert" th:if="${alert.dismiss}" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </th:block>
+    </th:block>
+</div>
