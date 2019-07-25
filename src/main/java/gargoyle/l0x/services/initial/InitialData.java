@@ -26,6 +26,8 @@ import static gargoyle.l0x.data.Roles.USER;
 @RequiredArgsConstructor
 @Slf4j
 public class InitialData {
+    private static final String LOCATION = "/scripts/L0X_PUBLIC_%s.sql";
+
     private static final String USERNAME = "Gargoyle";
     private static final String PASSWORD = "44114411";
     private static final String EMAIL = "lure.of.chaos@gmail.com";
@@ -42,18 +44,22 @@ public class InitialData {
             try (Timer ignored = new Timer("Initial data")) {
                 //noinspection unused
                 User user = users.registerWithRoles(USERNAME, PASSWORD, EMAIL, USER, ADMIN);
-                Map.of(
-                        Creation.TABLE_CREATIONS, "/L0X_PUBLIC_CREATIONS.sql",
-                        News.TABLE_NEWS, "/L0X_PUBLIC_NEWS.sql",
-                        Quote.TABLE_QUOTES, "/L0X_PUBLIC_QUOTES.sql"
-                ).forEach((key, value) -> {
-                    if (!IOUtil.checkTable(key, jdbcTemplate, log))
-                        IOUtil.execScript(value, jdbcTemplate, log);
-                });
+                checkAndExec(Map.of(
+                        Creation.TABLE_CREATIONS, String.format(LOCATION, Creation.TABLE_CREATIONS),
+                        News.TABLE_NEWS, String.format(LOCATION, News.TABLE_NEWS),
+                        Quote.TABLE_QUOTES, String.format(LOCATION, Quote.TABLE_QUOTES)
+                ));
             }
             try (Timer ignored = new Timer("Build Menu")) {
                 log.info(menuBuilder.buildMenu(null).toString());
             }
+        });
+    }
+
+    private void checkAndExec(Map<String, String> tableScipts) {
+        tableScipts.forEach((table, script) -> {
+            if (!IOUtil.checkTable(table, jdbcTemplate, log))
+                IOUtil.execScript(script, jdbcTemplate, log);
         });
     }
 
