@@ -119,6 +119,9 @@
             lineNumbers: false,
             matchWordHighlight: "onselected",
             toc: false,
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: /*[[${#mvc.url('AUC#mdFileUpload').build()}]]*/ "gargoyle.l0x.controllers.admin.UploadController.mdFileUpload",
             "lang": {
                 "name": "ru",
                 "description": "Открытый редактор Markdown",

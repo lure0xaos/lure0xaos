@@ -58,6 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .headers().frameOptions().sameOrigin().and()
+                .csrf().disable()//fixme
+                .cors().disable()//fixme
                 .authorizeRequests()
                 .antMatchers(PATH_ADMIN, PATH_ADMIN + "/**").hasRole(ADMIN)
                 .anyRequest().permitAll()
