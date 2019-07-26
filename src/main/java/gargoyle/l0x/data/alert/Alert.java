@@ -5,9 +5,10 @@ import lombok.ToString;
 import lombok.Value;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Value
-@EqualsAndHashCode(of = {"type", "message"})
+@EqualsAndHashCode(of = {"type", "date"})
 @ToString
 public final class Alert implements Serializable {
     private static final long serialVersionUID = 3527140452140486102L;
@@ -16,6 +17,7 @@ public final class Alert implements Serializable {
     private final String description;
     private final boolean dismiss;
     private final boolean raw;
+    private final LocalDateTime date = LocalDateTime.now();
 
     public Alert(AlertType type, String message) {
         this(type, message, "");

@@ -3,14 +3,14 @@ package gargoyle.l0x.services.alert;
 import gargoyle.l0x.data.alert.Alert;
 import gargoyle.l0x.data.alert.AlertType;
 
-import java.util.List;
+import java.util.Set;
 
 import static gargoyle.l0x.data.alert.AlertType.*;
 
 public interface Alerts {
-    List<Alert> getAlerts();
+    Set<Alert> getAlerts();
 
-    List<Alert> getAlertsOnce();
+    Set<Alert> getAlertsOnce();
 
     void alert(Alert alert);
 

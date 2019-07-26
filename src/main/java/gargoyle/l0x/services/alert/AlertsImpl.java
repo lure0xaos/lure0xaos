@@ -10,8 +10,8 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
 import static org.springframework.web.context.WebApplicationContext.SCOPE_SESSION;
@@ -21,20 +21,20 @@ import static org.springframework.web.context.WebApplicationContext.SCOPE_SESSIO
 public class AlertsImpl implements Alerts, Externalizable {
     public static final String BEAN_ID = "alerts";
     private static final long serialVersionUID = -9030112091233091069L;
-    private transient List<Alert> alerts;
+    private transient Set<Alert> alerts;
 
     public AlertsImpl() {
-        alerts = new LinkedList<>();
+        alerts = new LinkedHashSet<>();
     }
 
     @Override
-    public List<Alert> getAlerts() {
-        return Collections.unmodifiableList(alerts);
+    public Set<Alert> getAlerts() {
+        return Collections.unmodifiableSet(alerts);
     }
 
     @Override
-    public List<Alert> getAlertsOnce() {
-        List<Alert> copy = List.copyOf(alerts);
+    public Set<Alert> getAlertsOnce() {
+        Set<Alert> copy = Set.copyOf(alerts);
         alerts.clear();
         return copy;
     }
@@ -51,6 +51,6 @@ public class AlertsImpl implements Alerts, Externalizable {
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        alerts = new LinkedList<>((Arrays.asList((Alert[]) in.readObject())));
+        alerts = new LinkedHashSet<>((Arrays.asList((Alert[]) in.readObject())));
     }
 }

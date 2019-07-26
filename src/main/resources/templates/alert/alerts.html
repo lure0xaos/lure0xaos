@@ -4,6 +4,10 @@
             <div th:class="${'alert fade show'+(' alert-'+alert.type.cssClass)+(alert.dismiss?' alert-dismissible':'')}">
                 <h2>
                     <th:block th:text="${alert.message}">message</th:block>
+                    <small>
+                        <!--/*@thymesVar id="systemDateTimeFormat" type="string"*/-->
+                        <th:block th:text="${#temporals.format(alert.date,systemDateTimeFormat)}">date</th:block>
+                    </small>
                 </h2>
                 <div class="">
                     <th:block th:if="${alert.raw}" th:utext="${alert.description}">description</th:block>
