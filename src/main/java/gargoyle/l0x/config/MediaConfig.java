@@ -11,4 +11,8 @@ import org.springframework.context.annotation.PropertySource;
 public class MediaConfig {
     @Value("${image.location}")
     private String imageLocation;
+    @Value("${image.width}")
+    private int imageWidth;
+    @Value("${image.height}")
+    private int imageHeight;
 }

@@ -1,14 +1,18 @@
 package gargoyle.l0x.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcOperations;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.nio.charset.Charset;
+import java.util.Map;
 import java.util.Optional;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -54,5 +58,24 @@ public enum IOUtil {
         } catch (IOException e) {
             log.error("Cannot load script" + script, e);
         }
+    }
+
+    public static ResponseEntity<? extends Resource> getResponse(Resource resource) throws IOException {
+        return ResponseEntity.ok()
+                .contentType(MediaTypeFactory.getMediaType(resource).orElse(MediaType.APPLICATION_OCTET_STREAM))
+                .contentLength(resource.contentLength())
+                .body(resource);
+    }
+
+    public static String toJson(Map<String, ? extends Serializable> map, String def) {
+        try {
+            return toJson(map);
+        } catch (JsonProcessingException e) {
+            return def;
+        }
+    }
+
+    public static String toJson(Map<String, ? extends Serializable> map) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(map);
     }
 }
