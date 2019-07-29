@@ -14,7 +14,10 @@ public class AwayImpl implements Away {
 
     @Override
     public String rewrite(String url) {
-        return ServletUriComponentsBuilder.fromCurrentContextPath()
+        ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentContextPath();
+        if (url.startsWith(builder.toUriString()))
+            return url;
+        return builder
                 .pathSegment(AwayConstants.LINK_PATH)
                 .queryParam(AwayController.MODEL_URL, URLEncoder.encode(url, StandardCharsets.UTF_8))
                 .build().toUriString();

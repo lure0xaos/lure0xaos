@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -67,13 +67,14 @@ public class AdminUploadController {
 
     @PostMapping(value = PATH_UPLOAD, produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
-    public String mdFileUpload(@RequestParam(PARAM_UPLOAD) MultipartFile file, UriComponentsBuilder ucb) {
+    public String mdFileUpload(@RequestParam(PARAM_UPLOAD) MultipartFile file) {
         if (file.isEmpty()) {
             return IOUtil.toJson(Map.of(KEY_SUCCESS, 0, KEY_MESSAGE, noFile()), "{}");
         }
         try {
             service.save(file.getOriginalFilename(), file.getBytes());
-            String uri = ucb.path(PATH_BASE + PATH_DOWNLOAD).pathSegment(file.getOriginalFilename()).build().toUriString();
+            String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path(PATH_BASE + PATH_DOWNLOAD).pathSegment(file.getOriginalFilename()).build().toUriString();
             return IOUtil.toJson(Map.of(KEY_SUCCESS, 1, KEY_URL, uri), "{}");
         } catch (IOException e) {
             String message = e.getLocalizedMessage();
