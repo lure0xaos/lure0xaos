@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{admin/layout}" th:with="title=#{admin-sessions-title}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{admin-sessions-title}">index</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="list-group">
+        <th:block th:each="entry:${sessions}" th:with="user=${entry.key},list=${entry.value}">
+            <ul class="list-unstyled">
+                <li class="media">
+                    <img alt="" src="#"
+                         th:src="@{{base}(base=${@gravatar.getAvatarLocation(user.email)},s=128,d='blank')}"/>
+                    <div class="media-body">
+                        <div class="row">
+                            <div class="col-3">
+                                <h5 class="mt-0 mb-1 btn-group">
+                                    <a class="btn btn-primary"
+                                       th:href="@{/users/{username}(username=${user.username})}">
+                                        <th:block th:text="${'@'+user.username}"><!--username--></th:block>
+                                    </a>
+                                    <a class="btn btn-danger"
+                                       th:href="@{/admin/sessions/{username}/kill(username=${user.username})}">
+                                        <i class="bi bi-person-square"></i>
+                                    </a>
+                                </h5>
+                            </div>
+                            <div class="col-9">
+                                <ul class="list-unstyled">
+                                    <th:block th:each="springSession:${list}">
+                                        <!--/*@thymesVar id="systemTimestampFormat" type="string"*/-->
+                                        <li class="list-group-item">
+                                            <small th:text="${springSession.primaryId}"></small>
+                                            <dl class="row">
+                                                <dt class="col-3">
+                                                    <th:block th:text="#{lastAccessTime}">
+                                                        <!--lastAccessTime-->
+                                                    </th:block>
+                                                </dt>
+                                                <dd class="col-9">
+                                                    <th:block
+                                                            th:text="${#dates.format(#conversions.convert(springSession.lastAccessTime,'java.util.Date'),systemTimestampFormat)}">
+                                                    </th:block>
+                                                </dd>
+                                                <dt class="col-3">
+                                                    <th:block th:text="#{creationTime}">
+                                                        <!--creationTime-->
+                                                    </th:block>
+                                                </dt>
+                                                <dd class="col-9">
+                                                    <th:block
+                                                            th:text="${#dates.format(#conversions.convert(springSession.creationTime,'java.util.Date'),systemTimestampFormat)}">
+                                                    </th:block>
+                                                </dd>
+                                            </dl>
+                                        </li>
+                                    </th:block>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </th:block>
+    </div>
+</th:block>
+</body>
+</html>

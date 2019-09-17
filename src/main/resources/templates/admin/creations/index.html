@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{admin/layout}"
+      th:with="service=${@creationAdminService},cat='creations',title=#{index-title}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<!--/*@thymesVar id="service" type="gargoyle.l0x.services.app.admin.base.BaseAdminService"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{index-title}">index</title>
+</head>
+<body>
+<th:block layout:fragment="sidemenu">
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/{cat}/edit/(cat=${cat})}">
+            <i class="bi bi-plus"></i>
+            <th:block th:text="#{create}"><!--create--></th:block>
+        </a>
+    </li>
+</th:block>
+<th:block layout:fragment="content">
+    <div class="btn-group">
+        <a class="btn btn-primary" th:href="@{/admin/{cat}/edit/(cat=${cat})}">
+            <i class="bi bi-plus"></i>
+            <th:block th:text="#{create}"><!--create--></th:block>
+        </a>
+        <a class="btn btn-secondary" th:href="@{/admin/{cat}/(cat=${cat})}">
+            <i class="bi bi-sync"></i>
+        </a>
+    </div>
+    <ul class="list-group">
+        <th:block th:each="item:${service.findAll(service.defaultSort)}">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-7">
+                        <th:block th:text="${service.field(item,'head')}"><!--item--></th:block>
+                    </div>
+                    <div class="col-1">
+                        <!--/*@thymesVar id="systemDateTimeFormat" type="string"*/-->
+                        <th:block th:text="${#temporals.format(service.field(item,'date'),systemDateTimeFormat)}">
+                            <!--item-->
+                        </th:block>
+                    </div>
+                    <div class="col-2">
+                        <th:block th:text="${service.path(item,'author.username')}">
+                            <!--item-->
+                        </th:block>
+                    </div>
+                    <div class="col-1">
+                        <th:block th:text="${#messages.msg('genre-'+service.field(item,'genre'))}">
+                            <!--item-->
+                        </th:block>
+                    </div>
+                    <div class="col-1 text-right">
+                        <div class="btn-group">
+                            <a class="btn btn-primary"
+                               th:href="@{/admin/{cat}/edit/{uid}(cat=${cat},uid=${service.getUid(item)})}">
+                                <i class="bi bi-pencil"></i>
+                                <th:block th:text="#{edit}">
+                                    <!--item-->
+                                </th:block>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </th:block>
+    </ul>
+    <div class="btn-group">
+        <a class="btn btn-primary" th:href="@{/admin/{cat}/edit/(cat=${cat})}">
+            <i class="bi bi-plus"></i>
+            <th:block th:text="#{create}"><!--create--></th:block>
+        </a>
+        <a class="btn btn-secondary" th:href="@{/admin/{cat}/(cat=${cat})}">
+            <i class="bi bi-sync"></i>
+        </a>
+    </div>
+</th:block>
+</body>
+</html>

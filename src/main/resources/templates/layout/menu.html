@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title>index</title>
+</head>
+<body class="d-flex flex-column h-100">
+<th:block layout:fragment="breadcrumb">
+    <!--/*@thymesVar id="creation" type="gargoyle.l0x.model.app.CreationModel"*/-->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <th:block th:each="item:${@menuBuilder.buildBreadcrumb(creation?.alias)}">
+                <li class="breadcrumb-item">
+                    <span th:unless="${item.leaf}">
+                        <th:block th:text="${item.label}"><!--label--></th:block>
+                    </span>
+                    <a href="#" th:href="@{/{alias}(alias=${item.alias})}" th:if="${item.leaf}">
+                        <th:block th:text="${item.label}"><!--label--></th:block>
+                    </a>
+                </li>
+            </th:block>
+        </ol>
+    </nav>
+</th:block>
+<th:block layout:fragment="rootmenu">
+    <!--/*@thymesVar id="creation" type="gargoyle.l0x.model.app.CreationModel"*/-->
+    <th:block layout:insert="~{layout/menu::menu}" th:with="items=${@menuBuilder.buildMenu(creation?.alias)}">
+        menu
+    </th:block>
+</th:block>
+<th:block layout:fragment="menu">
+    <!--/*@thymesVar id="parent" type="gargoyle.l0x.data.MenuItem"*/-->
+    <!--/*@thymesVar id="item" type="gargoyle.l0x.data.MenuItem"*/-->
+    <!--/*@thymesVar id="items" type="java.util.Collection<gargoyle.l0x.data.MenuItem>"*/-->
+    <div th:class="${'list-group px-2'+(parent ne null?' border':'')+' collapse'+(parent eq null or parent?.visible?' show':'')}"
+         th:id="${'items_'+(parent?.id)}">
+        <th:block th:each="item:${items}">
+            <a
+                    th:class="${'list-group-item border-bottom-0 list-group-item-action px-2 py-1'+ (item.visible?' active':'')}"
+                    th:if="${item.leaf}"
+                    th:id="${item.id}"
+                    th:href="@{/{alias}(alias=${item.alias})}"
+                    th:title="${item.title}"
+            >
+                <i class="bi bi-book"></i>
+                <th:block th:text="${item.label}"><!--item--></th:block>
+            </a>
+            <a
+                    data-bs-toggle="collapse"
+                    class="list-group-item border-bottom-0 list-group-item-action px-2 py-1"
+                    th:unless="${item.leaf}"
+                    th:id="${item.id}"
+                    th:href="${'#items_'+(item.id)}"
+                    th:title="${item.title}"
+            >
+                <i class="" th:class="${'bi '+(parent eq null or item.visible?'bi-dash':'bi-plus')}"></i>
+                <th:block th:text="${item.label}"><!--item--></th:block>
+            </a>
+            <th:block layout:insert="~{layout/menu::menu}" th:with="items=${item.children},parent=${item}">
+                <!--recursive-->
+            </th:block>
+        </th:block>
+    </div>
+</th:block>
+</body>
+</html>

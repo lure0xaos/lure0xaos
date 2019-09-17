@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en" th:lang="${lang}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{layout}">index</title>
+    <link href="img/favicon.ico" rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/ico"/>
+    <link href="img/favicon.ico" rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon"/>
+    <link href="img/favicon.png" rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/png"/>
+    <link href="img/favicon.png" rel="icon" th:href="@{/img/favicon.png}" type="image/png"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+</head>
+<body class="d-flex flex-column h-100 text-center">
+<th:block layout:fragment="header">
+    <th:block th:replace="layout/layout::header"><!--header--></th:block>
+</th:block>
+<main class="flex-shrink-0">
+    <div class="container">
+        <!--/*@thymesVar id="title" type="string"*/-->
+        <h1 th:text="${title}">title</h1>
+        <th:block layout:fragment="content"><!--content--></th:block>
+    </div>
+</main>
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <th:block layout:fragment="footer">
+            <th:block th:replace="layout/layout::footer"><!--footer--></th:block>
+        </th:block>
+    </div>
+</footer>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+<th:block layout:fragment="ext"><!--ext--></th:block>
+</body>
+</html>

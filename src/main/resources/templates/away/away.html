@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{app/layout}" th:with="title=#{away-title}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{away-title}"><!--away--></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="alert alert-warning">
+        <h1>
+            <th:block th:text="#{away-header}"><!--header--></th:block>
+        </h1>
+        <div>
+            <th:block th:text="#{away-body}"><!--body--></th:block>
+        </div>
+        <a class="alert-link" target="_blank" th:href="${url}" th:text="${url}"></a>
+        <i class="bi bi-link"></i>
+        <div>
+            <th:block th:text="#{away-footer}"><!--footer--></th:block>
+            <a class="alert-link" href="javascript:history.back()">
+                <i class="bi bi-caret-left"></i>
+                <th:block th:text="#{away-back}"><!--back--></th:block>
+            </a>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

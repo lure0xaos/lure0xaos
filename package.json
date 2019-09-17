@@ -1,0 +1,12 @@
+{
+  "name": "customise-bootstrap-for-spring-boot",
+  "scripts": {
+    "scss": "node-sass src/main/scss -o target/classes/static/css"
+  },
+  "dependencies": {
+    "bootstrap": "^5.2.0",
+    "bootstrap-icons": "^1.9.1",
+    "copyfiles": "^2.4.1",
+    "node-sass": "^7.0.1"
+  }
+}

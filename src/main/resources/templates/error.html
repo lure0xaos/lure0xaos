@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{error/layout}" th:with="title=${status+' '+error}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<!--/*@thymesVar id="status" type="int"*/-->
+<!--/*@thymesVar id="error" type="string"*/-->
+<!--/*@thymesVar id="message" type="string"*/-->
+<!--/*@thymesVar id="path" type="string"*/-->
+<!--/*@thymesVar id="timestamp" type="java.util.Date"*/-->
+<!--/*@thymesVar id="exception" type="java.lang.Exception"*/-->
+<!--/*@thymesVar id="trace" type="string"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${status+' '+error}">error</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}"/>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="alert alert-danger">
+        <h1>
+            <th:block th:text="${status+' '+error}">message</th:block>
+            <a class="alert-link" th:href="@{/}">&circlearrowright;</a>
+        </h1>
+        <div th:if="${message ne 'No message available'}">
+            <h2>
+                <th:block th:text="${message}">message</th:block>
+                <a class="alert-link" data-bs-toggle="collapse" href="#trace">&dArr;</a>
+            </h2>
+            <div class="collapse" id="trace">
+                <pre class="text-left" th:if="${trace}" th:text="${trace}"></pre>
+            </div>
+        </div>
+        <!--/*@thymesVar id="systemTimestampFormat" type="string"*/-->
+        <small class="text-muted" th:text="${#dates.format(timestamp,systemTimestampFormat)}"></small>
+    </div>
+</th:block>
+</body>
+</html>

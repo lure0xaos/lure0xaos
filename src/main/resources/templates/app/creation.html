@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{app/layout}" th:with="title=${creation.head}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<!--/*@thymesVar id="creation" type="gargoyle.l0x.model.app.CreationModel"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <!--/*@thymesVar id="creation" type="gargoyle.l0x.model.app.CreationModel"*/-->
+    <title th:text="${creation.head}">head</title>
+    <link rel="stylesheet" th:href="@{/css/creation.css}"/>
+    <meta name="_csrf_parameter" th:content="${_csrf.parameterName}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <th:block layout:insert="~{layout/menu::breadcrumb}"
+              th:with="items=${@menuBuilder.buildBreadcrumb(creation?.alias)}">
+        breadcrumb
+    </th:block>
+    <div class="float-right">
+        <!--/*@thymesVar id="rate" type="int"*/-->
+        <!--/*@thymesVar id="auth" type="java.lang.Boolean"*/-->
+        <th:block th:each="vote:${#numbers.sequence(1,5)}"
+                  th:with="link=@{/{alias}/vote/(alias=${creation.alias},vote=${vote})},state=${vote eq rate?'primary':'secondary'}">
+            <a th:class="${'badge badge-pill badge-'+state}"
+               th:href="${auth?link:'#'}"
+               th:style="${'background-color:'+#messages.msg('vote-color-'+vote+'-'+state)+';'}"
+               th:title="${#messages.msg('vote-label-'+vote+'')}">
+                <i class="bi bi-star"></i>
+            </a>
+        </th:block>
+    </div>
+    <ul class="nav nav-tabs" id="creation-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#creation" id="creation-tab">
+                <i class="bi bi-book"></i>
+                <th:block th:text="#{creation-tab-creation}">creation</th:block>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#comments" id="comments-tab">
+                <i class="bi bi-chat"></i>
+                <th:block th:text="#{creation-tab-comments}">comments</th:block>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="creation-tabs-content">
+        <div class="tab-pane fade show active" id="creation">
+            <!--/*@thymesVar id="creation" type="gargoyle.l0x.model.app.CreationModel"*/-->
+            <div th:class="${'creation creation-'+creation.genre}">
+                <div class="creation-header text-right">
+                    <cite>
+                        <th:block th:text="${#messages.msg('genre-'+creation.genre)}">genre</th:block>
+                    </cite>
+                </div>
+                <div class="float-right">
+                    <!--/*@thymesVar id="admin" type="java.lang.Boolean"*/-->
+                    <a class="badge badge-secondary float-right" href="#"
+                       th:href="@{/admin/{cat}/edit/{uid}(cat=${'creations'},uid=${creation.uid})}"
+                       th:if="${admin}">
+                        <i class="bi bi-pencil" th:title="#{edit}"></i>
+                    </a>
+                </div>
+                <div class="creation-content" th:utext="${creation.body}">content</div>
+                <footer class="blockquote-footer creation-footer text-right">
+                    <cite>
+                        <th:block th:text="${'@'+creation.author.username}">author</th:block>
+                    </cite>
+                    <!--/*@thymesVar id="systemDateTimeFormat" type="string"*/-->
+                    <th:block th:text="${#temporals.format(creation.date,systemDateTimeFormat)}">date</th:block>
+                </footer>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="comments">
+            <!-- Button trigger modal -->
+            <!--/*@thymesVar id="auth" type="boolean"*/-->
+            <button class="btn btn-primary" data-comment-author="" data-bs-target="#commentDialog"
+                    data-bs-toggle="modal"
+                    th:if="${auth}"
+                    type="button">
+                <th:block th:text="#{creation-tab-comments-new}">comment</th:block>
+            </button>
+
+            <div id="creation_comments_root"></div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="commentDialog" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title">
+                                <input class="form-control" name="comment-head" type="text"/>
+                            </div>
+                            <button class="close" data-bs-dismiss="modal" type="button">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <textarea class="form-control" cols="80" name="comment-source" rows="5"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                            <button class="btn btn-primary modal-submit" type="button">
+                                <th:block th:text="#{creation-tab-comments-new}"><!--new--></th:block>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block layout:insert="~{layout/menu::breadcrumb}"
+              th:with="items=${@menuBuilder.buildBreadcrumb(creation?.alias)}">
+        breadcrumb
+    </th:block>
+</th:block>
+<th:block layout:fragment="ext">
+    <script th:inline="javascript" type="text/javascript">
+        jQuery('#commentDialog')
+            .on('show.bs.modal', function (event) {
+                if ("undefined" === typeof event.relatedTarget) {
+                    return;
+                }
+                let button = jQuery(event.relatedTarget);
+                let recipient = button.data('comment-author');
+                let modal = jQuery(this);
+
+                modal.find('.modal-title input[name="comment-head"]').val('New message to ' + recipient);
+                modal.find('.modal-body textarea[name="comment-source"]').val(recipient)
+            });
+        jQuery('#commentDialog .modal-submit')
+            .on('click', function (event) {
+                let modal = jQuery(this).parent().parent().parent().parent();
+
+                let csrfHeader = jQuery("meta[name='_csrf_header']").attr("content");
+                let csrfToken = jQuery("meta[name='_csrf']").attr("content");
+                let csrfParam = jQuery("meta[name='_csrf_parameter']").attr("content");
+
+                let data = {
+                    head: modal.find('.modal-title input[name="comment-head"]').val(),
+                    source: modal.find('.modal-body textarea[name="comment-source"]').val()
+                };
+                data[csrfParam] = csrfToken;
+
+                jQuery.ajax({
+                    type: "POST",
+                    beforeSend: function (request) {
+                        request.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    url:/*[[@{/{alias}/comment/(alias=${creation.alias})}]]*/"",
+                    data: data,
+                    success: function (data) {
+                        modal.modal('hide');
+                        $('#creation-tabs a[href="#comments"]').tab('show');
+                    }
+                });
+            });
+        jQuery('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+            if ('comments-tab' === e.target.id) {
+
+                let csrfHeader = jQuery("meta[name='_csrf_header']").attr("content");
+                let csrfToken = jQuery("meta[name='_csrf']").attr("content");
+                let csrfParam = jQuery("meta[name='_csrf_parameter']").attr("content");
+
+                let data = {};
+                data[csrfParam] = csrfToken;
+
+                jQuery.ajax({
+                    type: "GET",
+                    beforeSend: function (request) {
+                        request.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    url:/*[[@{/{alias}/comments/(alias=${creation.alias})}]]*/"",
+                    data: data,
+                    success: function (data) {
+                        jQuery("#creation_comments_root").html(data);
+                    }
+                });
+            }
+        })
+    </script>
+</th:block>
+</body>
+</html>

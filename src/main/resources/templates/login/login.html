@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="${lang}" layout:decorate="~{login/layout}" th:with="title=#{login-title}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<head>
+    <title th:text="#{login-title}">index</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <form class="form-login" method="post" th:action="@{/login}" th:with="error=${param.error}">
+        <!--/*@thymesVar id="param" type="any"*/-->
+        <!--/*@thymesVar id="param.error" type="boolean"*/-->
+        <div class="alert alert-danger" th:if="${error}">
+            <th:block th:text="#{login-error}">error</th:block>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="username" th:title="#{login-username}">
+                    <i class="bi bi-person"></i>
+                </label>
+            </div>
+            <input autofocus="autofocus" class="form-control" id="username" name="username"
+                   autocomplete="on" required="required" th:placeholder="#{login-username}" type="text"/>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="password"
+                       onclick="$('#password').attr('type',$('#password').attr('type')==='password'?'text':'password')">
+                    <i class="bi bi-key" th:title="#{login-password}"></i>
+                </label>
+            </div>
+            <input class="form-control" id="password" name="password" required="required"
+                   autocomplete="on" th:placeholder="#{login-password}" type="text"/>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input checked="checked" id="rememberme" name="remember-me" type="checkbox"/>
+                </div>
+            </div>
+            <input class="form-control disabled" readonly="readonly" th:value="#{login-rememberme}" type="text"/>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block mt-5" type="submit">
+            <th:block th:text="#{login-submit}">Sign in</th:block>
+        </button>
+        <div class="mt-5 mb-3 text-muted">
+            <div class="text-center">
+                <!--/*@thymesVar id="projectName" type="string"*/-->
+                <th:block th:text="${projectName}">projectName</th:block>
+                <!--/*@thymesVar id="projectVersion" type="string"*/-->
+                v
+                <th:block th:text="${projectVersion}">projectVersion</th:block>
+                -
+                <!--/*@thymesVar id="projectBuild" type="string"*/-->
+                <th:block th:text="${projectBuild}">projectBuild</th:block>
+            </div>
+            <div class="text-center">
+                &copy;
+                <!--/*@thymesVar id="projectInceptionYear" type="string"*/-->
+                <th:block th:text="${projectInceptionYear}">projectInceptionYear</th:block>
+                <!--/*@thymesVar id="projectOrganizationUrl" type="string"*/-->
+                <!--/*@thymesVar id="projectOrganizationName" type="string"*/-->
+                <a th:href="${projectOrganizationUrl}">
+                    <th:block th:text="${projectOrganizationName}">projectOrganizationName</th:block>
+                </a>
+            </div>
+        </div>
+    </form>
+</th:block>
+</body>
+</html>

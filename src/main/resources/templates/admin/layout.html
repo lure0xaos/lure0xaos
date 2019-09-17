@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" th:lang="${lang}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{layout}">index</title>
+    <link href="img/favicon.ico" rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/ico"/>
+    <link href="img/favicon.ico" rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon"/>
+    <link href="img/favicon.png" rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/png"/>
+    <link href="img/favicon.png" rel="icon" th:href="@{/img/favicon.png}" type="image/png"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+</head>
+<body class="d-flex flex-column h-100">
+<th:block layout:fragment="header">
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+        <div class="container">
+            <!--/*@thymesVar id="projectName" type="string"*/-->
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" th:href="@{/admin/}">
+                <img alt="#" class="d-inline-block align-baseline" height="24" src="#" th:src="@{/img/favicon.png}"
+                     type="image/png" width="24"/>
+                <th:block th:text="${projectName}">projectName</th:block>
+            </a>
+            <ul class="navbar-nav px-3">
+                <!--/*@thymesVar id="logged" type="java.lang.Boolean"*/-->
+                <li class="nav-item dropdown" th:if="${logged}">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       id="navbarAuthenticationMenuLink">
+                        <img alt="" src="#"
+                             th:src="@{{base}(base=${@gravatar.getAvatarLocation(@users.getIf(#authentication.name).email)},s=20,d='blank')}"/>
+                        <th:block th:text="${'@'+#authentication.name}"><!--username--></th:block>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" th:href="@{/}">
+                            <i class="bi bi-book"></i>
+                            <th:block th:text="#{index-title}"><!--Index--></th:block>
+                        </a>
+                        <a class="dropdown-item" th:href="@{/users/}">
+                            <i class="bi bi-person-badge"></i>
+                            <th:block th:text="#{layout-authentication-profile}"><!--Profile--></th:block>
+                        </a>
+                        <a class="dropdown-item" th:href="@{/logout}">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <th:block th:text="#{layout-authentication-logout}"><!--Logout--></th:block>
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item" th:unless="${logged}">
+                    <a class="nav-link" th:href="@{/login}">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <th:block th:text="#{login-submit}"><!--login--></th:block>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</th:block>
+<main class="flex-shrink-0">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <th:block layout:fragment="sidebar">
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span th:text="#{admin-sidebar-title}"></span>
+                        </h6>
+                        <ul class="nav flex-column mb-2">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/sessions/}">
+                                    <th:block th:text="#{admin-sessions-title}"><!--sessions--></th:block>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/creations/}">
+                                    <th:block th:text="#{admin-creations-title}"><!--creations--></th:block>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/news/}">
+                                    <th:block th:text="#{admin-news-title}"><!--news--></th:block>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/quotes/}">
+                                    <th:block th:text="#{admin-quotes-title}"><!--quotes--></th:block>
+                                </a>
+                            </li>
+                        </ul>
+                    </th:block>
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span th:text="#{admin-sidemenu-title}"></span>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <th:block layout:fragment="sidemenu">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/}">
+                                </a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </nav>
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <!--/*@thymesVar id="title" type="string"*/-->
+                    <h1 class="h2" th:text="${title}">title</h1>
+                </div>
+                <th:block th:replace="/alert/alerts::alerts"><!--alerts--></th:block>
+                <th:block layout:fragment="content"><!--content--></th:block>
+            </main>
+        </div>
+    </div>
+</main>
+<script th:src="@{/js/bootstrap/bootstrap.bundle.js}"></script>
+<th:block layout:fragment="font-awesome-js">
+</th:block>
+<th:block layout:fragment="md_options">
+    <script th:src="@{/webjars/jquery/jquery.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        md_options = {
+            mode: "markdown",
+            name: "item-source",
+            height: "100%",
+            path: /*[[@{/webjars/editor.md/lib/}]]*/ "editor.md/lib/",
+            placeholder: /*[[#{admin-editor-placeholder}]]*/ "Please use markdown",
+            autoHeight: true,
+            lineNumbers: false,
+            matchWordHighlight: "onselected",
+            toc: false,
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: /*[[${#mvc.url('AUC#mdFileUpload').build()}]]*/ "gargoyle.l0x.controllers.admin.UploadController.mdFileUpload",
+            "lang": {
+                "name": "ru",
+                "description": "Открытый редактор Markdown",
+                "tocTitle": "Оглавление",
+                "toolbar": {
+                    "undo": "Отменить (Ctrl + Z)",
+                    "redo": "Повторить (Ctrl + Y)",
+                    "bold": "Жирный",
+                    "del": "Перечёркнутый",
+                    "italic": "Курсив",
+                    "quote": "Цитата",
+                    "ucwords": "Преобразовать инициалы каждого слова в верхний регистр",
+                    "uppercase": "Преобразовать выделение в прописные",
+                    "lowercase": "Преобразовать выделение в строчные",
+                    "h1": "Заголовок 1",
+                    "h2": "Заголовок 2",
+                    "h3": "Заголовок 3",
+                    "h4": "Заголовок 4",
+                    "h5": "Заголовок 5",
+                    "h6": "Заголовок 6",
+                    "list-ul": "Неупорядоченный список",
+                    "list-ol": "Упорядоченный список",
+                    "hr": "Горизонтальная линия",
+                    "link": "Ссылка",
+                    "reference-link": "Якорь",
+                    "image": "Добавить изображение",
+                    "code": "Встроенный код",
+                    "preformatted-text": "Предварительно отформатированный текст / кодовый блок (стиль с отступом)",
+                    "code-block": "Код-блок (многоязычный стиль)",
+                    "table": "Добавить таблицу",
+                    "datetime": "Дата-время",
+                    "emoji": "Emoji выражение",
+                    "html-entities": "Символы сущностей HTML",
+                    "pagebreak": "Вставить разрыв страницы",
+                    "goto-line": "Перейти к строке",
+                    "watch": "Закрыть предварительный просмотр",
+                    "unwatch": "Открыть предварительный просмотр",
+                    "preview": "Полноэкранный просмотр окна HTML (нажмите Shift + ESC восстановление)",
+                    "fullscreen": "Во весь экран (восстановление по ESC)",
+                    "clear": "Очистить",
+                    "search": "Поиск",
+                    "help": "Использовать помощь",
+                    "info": "О программе"
+                },
+                "buttons": {
+                    "enter": "ОК",
+                    "cancel": "Отмена",
+                    "close": "Закрыть"
+                },
+                "dialog": {
+                    "link": {
+                        "title": "Добавить ссылку",
+                        "url": "Адрес",
+                        "urlTitle": "Текст",
+                        "urlEmpty": "Ошибка: пожалуйста, заполните адрес ссылки."
+                    },
+                    "referenceLink": {
+                        "title": "Добавить ссылку",
+                        "name": "Имя",
+                        "url": "Адрес",
+                        "urlId": "ID",
+                        "urlTitle": "Текст",
+                        "nameEmpty": "Ошибка: имя ссылки не может быть пустым.",
+                        "idEmpty": "Ошибка: пожалуйста, введите идентификатор ссылки.",
+                        "urlEmpty": "Ошибка: пожалуйста, введите URL ссылки."
+                    },
+                    "image": {
+                        "title": "Добавить изображение",
+                        "url": "Адрес",
+                        "link": "Ссылка",
+                        "alt": "Описание",
+                        "uploadButton": "Загрузить",
+                        "imageURLEmpty": "Ошибка: адрес изображения не может быть пустым.",
+                        "uploadFileEmpty": "Ошибка: загруженное изображение не может быть пустым.",
+                        "formatNotAllowed": "Ошибка: разрешена только загрузка файлов изображений. Формат файла изображений, который можно загружать:"
+                    },
+                    "preformattedText": {
+                        "title": "Добавить предварительно отформатированный текст или кодовые блоки",
+                        "emptyAlert": "Ошибка: пожалуйста, заполните содержимое предварительно отформатированного текста или кода."
+                    },
+                    "codeBlock": {
+                        "title": "Добавить блок кода",
+                        "selectLabel": "Код языка:",
+                        "selectDefaultText": "Пожалуйста, выберите язык кода",
+                        "otherLanguage": "Другие языки",
+                        "unselectedLanguageAlert": "Ошибка: Пожалуйста, выберите тип языка, к которому относится код.",
+                        "codeEmptyAlert": "Ошибка: пожалуйста, заполните содержимое кода."
+                    },
+                    "htmlEntities": {
+                        "title": "Символы HTML-сущностей"
+                    },
+                    "help": {
+                        "title": "Помощь"
+                    }
+                }
+            }
+        };
+        $(function () {
+            editormd.urls.atLinkBase = /*[[@{/to/}]]*/"";
+        })
+    </script>
+</th:block>
+<th:block layout:fragment="ext"><!--ext--></th:block>
+</body>
+</html>

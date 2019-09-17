@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" th:lang="${lang}"
+      xmlns:th="http://www.thymeleaf.org/">
+<!--/*@thymesVar id="lang" type="string"*/-->
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>index</title>
+    <link href="img/favicon.ico" rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/ico"/>
+    <link href="img/favicon.ico" rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon"/>
+    <link href="img/favicon.png" rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/png"/>
+    <link href="img/favicon.png" rel="icon" th:href="@{/img/favicon.png}" type="image/png"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+</head>
+<body class="d-flex flex-column h-100">
+<th:block th:fragment="header">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <img alt="#" class="d-inline-block align-baseline" height="24" src="#" th:src="@{/img/favicon.png}"
+                     type="image/png" width="24"/>
+                <!--/*@thymesVar id="projectName" type="string"*/-->
+                <th:block th:text="${projectName}"><!--projectName--></th:block>
+            </a>
+            <button class="navbar-toggler" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <div class="nav-item navbar-text text-nowrap mr-5">
+                        <!--/*@thymesVar id="online" type="long"*/-->
+                        <th:block th:text="#{layout-online(${online})}">online</th:block>
+                    </div>
+                </div>
+                <form class="form-inline w-100" th:action="@{/find/}">
+                    <label class="sr-only" for="query"></label>
+                    <div class="input-group w-100">
+                        <input class="form-control" id="query" name="query" th:placeholder="#{search}" type="text"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-outline-success" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+                <div class="navbar-nav">
+                    <!--/*@thymesVar id="logged" type="java.lang.Boolean"*/-->
+                    <div class="nav-item dropdown" th:if="${logged}">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                           id="navbarAuthenticationMenuLink">
+                            <img alt="" src="#"
+                                 th:src="@{{base}(base=${@gravatar.getAvatarLocation(@users.getIf(#authentication.name).email)},s=20,d='blank')}"/>
+                            <th:block th:text="${'@'+#authentication.name}">user name</th:block>
+                        </a>
+                        <div class="dropdown-menu">
+                            <!--/*@thymesVar id="admin" type="java.lang.Boolean"*/-->
+                            <a class="dropdown-item" th:href="@{/admin/}" th:if="${admin}">
+                                <i class="bi bi-sunglasses"></i>
+                                <th:block th:text="#{admin-index-title}">
+                                    Admin
+                                </th:block>
+                            </a>
+                            <a class="dropdown-item" th:href="@{/users/}">
+                                <i class="bi bi-person-badge"></i>
+                                <th:block th:text="#{layout-authentication-profile}">
+                                    Profile
+                                </th:block>
+                            </a>
+                            <a class="dropdown-item" th:href="@{/logout}">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <th:block th:text="#{layout-authentication-logout}">
+                                    Logout
+                                </th:block>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="nav-item" th:unless="${logged}">
+                        <a class="nav-link text-nowrap" th:href="@{/login}">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            <th:block th:text="#{login-submit}">login</th:block>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</th:block>
+<th:block th:fragment="footer">
+    <span class="text-muted text-left">
+        <!--/*@thymesVar id="projectName" type="string"*/-->
+        <th:block th:text="${projectName}">projectName</th:block>
+        <!--/*@thymesVar id="projectVersion" type="string"*/-->
+        v<th:block th:text="${projectVersion}">projectVersion</th:block>
+        -
+        <!--/*@thymesVar id="projectBuild" type="string"*/-->
+        <th:block th:text="${projectBuild}">projectBuild</th:block>
+    </span>
+    <!--/*@thymesVar id="projectOrganizationUrl" type="string"*/-->
+    <!--/*@thymesVar id="projectOrganizationName" type="string"*/-->
+    <!--/*@thymesVar id="projectInceptionYear" type="string"*/-->
+    <span class="text-muted text-right">
+        &copy;
+        <th:block th:text="${projectInceptionYear}">projectInceptionYear</th:block>
+        <a th:href="${projectOrganizationUrl}">
+            <th:block th:text="${projectOrganizationName}">projectOrganizationName</th:block>
+        </a>
+    </span>
+</th:block>
+</body>
+</html>
