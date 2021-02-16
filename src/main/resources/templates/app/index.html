@@ -11,13 +11,13 @@
     <ul class="nav nav-tabs" id="index-tab">
         <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#news" id="news-tab">
-                <i class="fas fa-newspaper"></i>
+                <i class="bi bi-newspaper"></i>
                 <th:block th:text="#{index-tab-news}"><!--news--></th:block>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#quote" id="quote-tab">
-                <i class="fas fa-quote-right"></i>
+                <i class="bi bi-chat-quote"></i>
                 <th:block th:text="#{index-tab-quote}"><!--quote--></th:block>
             </a>
         </li>
@@ -42,7 +42,7 @@
                                     <a class="badge badge-secondary float-right" href="#"
                                        th:href="@{/admin/{cat}/edit/{uid}(cat=${'news'},uid=${newsline.uid})}"
                                        th:if="${admin}">
-                                        <i class="fas fa-edit" th:title="#{edit}"></i>
+                                        <i class="bi bi-pencil" th:title="#{edit}"></i>
                                     </a>
                                 </small>
                             </h5>
@@ -66,7 +66,7 @@
                     <a class="badge badge-secondary float-right" href="#"
                        th:href="@{/admin/{cat}/edit/{uid}(cat=${'quotes'},uid=${quote.uid})}"
                        th:if="${admin}">
-                        <i class="fas fa-edit" th:title="#{edit}"></i>
+                        <i class="bi bi-pencil" th:title="#{edit}"></i>
                     </a>
                 </div>
                 <div class="card-body">

@@ -12,7 +12,7 @@
 <th:block layout:fragment="sidemenu">
     <li class="nav-item">
         <a class="nav-link" th:href="@{/admin/{cat}/edit/(cat=${cat})}">
-            <i class="fas fa-plus"></i>
+            <i class="bi bi-plus"></i>
             <th:block th:text="#{create}"><!--create--></th:block>
         </a>
     </li>
@@ -20,11 +20,11 @@
 <th:block layout:fragment="content">
     <div class="btn-group">
         <a class="btn btn-primary" th:href="@{/admin/{cat}/edit/(cat=${cat})}">
-            <i class="fas fa-plus"></i>
+            <i class="bi bi-plus"></i>
             <th:block th:text="#{create}"><!--create--></th:block>
         </a>
         <a class="btn btn-secondary" th:href="@{/admin/{cat}/(cat=${cat})}">
-            <i class="fas fa-sync"></i>
+            <i class="bi bi-sync"></i>
         </a>
     </div>
     <ul class="list-group">
@@ -54,7 +54,7 @@
                         <div class="btn-group">
                             <a class="btn btn-primary"
                                th:href="@{/admin/{cat}/edit/{uid}(cat=${cat},uid=${service.getUid(item)})}">
-                                <i class="fas fa-edit"></i>
+                                <i class="bi bi-pencil"></i>
                                 <th:block th:text="#{edit}">
                                     <!--item-->
                                 </th:block>
@@ -67,11 +67,11 @@
     </ul>
     <div class="btn-group">
         <a class="btn btn-primary" th:href="@{/admin/{cat}/edit/(cat=${cat})}">
-            <i class="fas fa-plus"></i>
+            <i class="bi bi-plus"></i>
             <th:block th:text="#{create}"><!--create--></th:block>
         </a>
         <a class="btn btn-secondary" th:href="@{/admin/{cat}/(cat=${cat})}">
-            <i class="fas fa-sync"></i>
+            <i class="bi bi-sync"></i>
         </a>
     </div>
 </th:block>

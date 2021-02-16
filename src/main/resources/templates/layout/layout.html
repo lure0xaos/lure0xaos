@@ -9,9 +9,8 @@
     <link href="img/favicon.ico" rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon"/>
     <link href="img/favicon.png" rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/png"/>
     <link href="img/favicon.png" rel="icon" th:href="@{/img/favicon.png}" type="image/png"/>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/css/layout.css}"/>
-    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
 </head>
 <body class="d-flex flex-column h-100">
 <th:block th:fragment="header">
@@ -39,7 +38,7 @@
                         <input class="form-control" id="query" name="query" th:placeholder="#{search}" type="text"/>
                         <div class="input-group-append">
                             <button class="btn btn-outline-success" type="submit">
-                                <i class="fas fa-search"></i>
+                                <i class="bi bi-search"></i>
                             </button>
                         </div>
                     </div>
@@ -56,19 +55,19 @@
                         <div class="dropdown-menu">
                             <!--/*@thymesVar id="admin" type="java.lang.Boolean"*/-->
                             <a class="dropdown-item" th:href="@{/admin/}" th:if="${admin}">
-                                <i class="fas fa-magic"></i>
+                                <i class="bi bi-sunglasses"></i>
                                 <th:block th:text="#{admin-index-title}">
                                     Admin
                                 </th:block>
                             </a>
                             <a class="dropdown-item" th:href="@{/users/}">
-                                <i class="fas fa-address-card"></i>
+                                <i class="bi bi-person-badge"></i>
                                 <th:block th:text="#{layout-authentication-profile}">
                                     Profile
                                 </th:block>
                             </a>
                             <a class="dropdown-item" th:href="@{/logout}">
-                                <i class="fas fa-sign-out-alt"></i>
+                                <i class="bi bi-box-arrow-right"></i>
                                 <th:block th:text="#{layout-authentication-logout}">
                                     Logout
                                 </th:block>
@@ -77,7 +76,7 @@
                     </div>
                     <div class="nav-item" th:unless="${logged}">
                         <a class="nav-link text-nowrap" th:href="@{/login}">
-                            <i class="fas fa-sign-in-alt"></i>
+                            <i class="bi bi-box-arrow-in-right"></i>
                             <th:block th:text="#{login-submit}">login</th:block>
                         </a>
                     </div>
@@ -106,6 +105,9 @@
             <th:block th:text="${projectOrganizationName}">projectOrganizationName</th:block>
         </a>
     </span>
+    <script th:src="@{/js/jquery/jquery.js}"></script>
+    <script th:src="@{/js/popper.js/umd/popper.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap.js}"></script>
 </th:block>
 </body>
 </html>

@@ -9,9 +9,8 @@
     <link href="img/favicon.ico" rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon"/>
     <link href="img/favicon.png" rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/png"/>
     <link href="img/favicon.png" rel="icon" th:href="@{/img/favicon.png}" type="image/png"/>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/css/admin.css}"/>
-    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
 </head>
 <body class="d-flex flex-column h-100">
 <th:block layout:fragment="header">
@@ -34,22 +33,22 @@
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" th:href="@{/}">
-                            <i class="fas fa-book"></i>
+                            <i class="bi bi-book"></i>
                             <th:block th:text="#{index-title}"><!--Index--></th:block>
                         </a>
                         <a class="dropdown-item" th:href="@{/users/}">
-                            <i class="fas fa-address-card"></i>
+                            <i class="bi bi-person-badge"></i>
                             <th:block th:text="#{layout-authentication-profile}"><!--Profile--></th:block>
                         </a>
                         <a class="dropdown-item" th:href="@{/logout}">
-                            <i class="fas fa-sign-out-alt"></i>
+                            <i class="bi bi-box-arrow-right"></i>
                             <th:block th:text="#{layout-authentication-logout}"><!--Logout--></th:block>
                         </a>
                     </div>
                 </li>
                 <li class="nav-item" th:unless="${logged}">
                     <a class="nav-link" th:href="@{/login}">
-                        <i class="fas fa-sign-in-alt"></i>
+                        <i class="bi bi-box-arrow-in-right"></i>
                         <th:block th:text="#{login-submit}"><!--login--></th:block>
                     </a>
                 </li>
@@ -113,11 +112,10 @@
         </div>
     </div>
 </main>
-<script th:src="@{/webjars/jquery/jquery.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.js}"></script>
-<script th:src="@{/webjars/bootstrap/js/bootstrap.js}"></script>
+<script th:src="@{/js/jquery/jquery.js}"></script>
+<script th:src="@{/js/popper.js/umd/popper.js}"></script>
+<script th:src="@{/js/bootstrap/bootstrap.js}"></script>
 <th:block layout:fragment="font-awesome-js">
-    <script th:src="@{/webjars/font-awesome/js/all.js}"></script>
 </th:block>
 <th:block layout:fragment="md_options">
     <script th:inline="javascript" type="text/javascript">

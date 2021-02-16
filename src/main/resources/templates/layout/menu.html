@@ -43,7 +43,7 @@
                     th:href="@{/{alias}(alias=${item.alias})}"
                     th:title="${item.title}"
             >
-                <i class="fas fa-book"></i>
+                <i class="bi bi-book"></i>
                 <th:block th:text="${item.label}"><!--item--></th:block>
             </a>
             <a
@@ -54,7 +54,7 @@
                     th:href="${'#items_'+(item.id)}"
                     th:title="${item.title}"
             >
-                <i class="" th:class="${'fas '+(parent eq null or item.visible?'fa-minus':'fa-plus')}"></i>
+                <i class="" th:class="${'bi '+(parent eq null or item.visible?'bi-dash':'bi-plus')}"></i>
                 <th:block th:text="${item.label}"><!--item--></th:block>
             </a>
             <th:block layout:insert="~{layout/menu::menu}" th:with="items=${item.children},parent=${item}">

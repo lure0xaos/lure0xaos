@@ -35,13 +35,13 @@
                         <div class="btn-group">
                             <a class="btn btn-primary"
                                th:href="@{/{alias}(alias=${item.alias})}">
-                                <i class="fas fa-eye"></i>
+                                <i class="bi bi-eye"></i>
                             </a>
                             <!--/*@thymesVar id="admin" type="java.lang.Boolean"*/-->
                             <a class="badge badge-secondary float-right" href="#"
                                th:href="@{/admin/{cat}/edit/{uid}(cat=${'creations'},uid=${creation.uid})}"
                                th:if="${admin}">
-                                <i class="fas fa-edit" th:title="#{edit}"></i>
+                                <i class="bi bi-pencil" th:title="#{edit}"></i>
                             </a>
                         </div>
                     </div>

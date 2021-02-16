@@ -27,20 +27,20 @@
                th:href="${auth?link:'#'}"
                th:style="${'background-color:'+#messages.msg('vote-color-'+vote+'-'+state)+';'}"
                th:title="${#messages.msg('vote-label-'+vote+'')}">
-                <i class="fas fa-star"></i>
+                <i class="bi bi-star"></i>
             </a>
         </th:block>
     </div>
     <ul class="nav nav-tabs" id="creation-tabs">
         <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#creation" id="creation-tab">
-                <i class="fas fa-book"></i>
+                <i class="bi bi-book"></i>
                 <th:block th:text="#{creation-tab-creation}">creation</th:block>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#comments" id="comments-tab">
-                <i class="fas fa-comment"></i>
+                <i class="bi bi-chat"></i>
                 <th:block th:text="#{creation-tab-comments}">comments</th:block>
             </a>
         </li>
@@ -59,7 +59,7 @@
                     <a class="badge badge-secondary float-right" href="#"
                        th:href="@{/admin/{cat}/edit/{uid}(cat=${'creations'},uid=${creation.uid})}"
                        th:if="${admin}">
-                        <i class="fas fa-edit" th:title="#{edit}"></i>
+                        <i class="bi bi-pencil" th:title="#{edit}"></i>
                     </a>
                 </div>
                 <div class="creation-content" th:utext="${creation.body}">content</div>
